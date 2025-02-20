@@ -1,0 +1,8 @@
+spring:
+  application:
+    name: ms-product
+server.port: 7001
+logging:
+  level:
+    root: INFO
+    '[bo.edu.ucb.microservices]': DEBUG

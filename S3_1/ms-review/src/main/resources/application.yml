@@ -1,0 +1,9 @@
+spring:
+  application:
+    name: ms-review
+server:
+  port: 7003
+logging:
+  level:
+    root: INFO
+    '[bo.edu.ucb.microservices]': DEBUG

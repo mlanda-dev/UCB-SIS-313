@@ -1,0 +1,13 @@
+spring:
+  application:
+    name: ms-recommendation
+  config:
+    import: "classpath:application-openapi.yml"
+
+server.port: 7002
+server.error.include-message: always
+
+logging:
+  level:
+    root: INFO
+    '[bo.edu.ucb.microservices]': DEBUG

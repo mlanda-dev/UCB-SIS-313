@@ -13,6 +13,7 @@ import bo.edu.ucb.microservices.util.exceptions.InvalidInputException;
 import bo.edu.ucb.microservices.util.exceptions.NotFoundException;
 import bo.edu.ucb.microservices.util.http.ServiceUtil;
 import io.swagger.v3.oas.annotations.Operation;
+import io.swagger.v3.oas.annotations.Parameter;
 import io.swagger.v3.oas.annotations.responses.ApiResponse;
 import io.swagger.v3.oas.annotations.responses.ApiResponses;
 import io.swagger.v3.oas.annotations.tags.Tag;
@@ -35,7 +36,8 @@ public class ProductServiceController {
 			@ApiResponse(responseCode = "400", description = "${api.responseCodes.badRequest.description}"),
 			@ApiResponse(responseCode = "404", description = "${api.responseCodes.notFound.description}")})
 	@GetMapping(value = "/{productId}", produces = "application/json")
-	public ProductDto getProduct(@PathVariable("productId") int productId) {
+	public ProductDto getProduct(@Parameter(description = "ID del producto a buscar", required = true) 
+			@PathVariable("productId") int productId) {
 		LOGGER.info("Obteniendo producto por el id: {}", productId);
 
 		if (productId < 1) {

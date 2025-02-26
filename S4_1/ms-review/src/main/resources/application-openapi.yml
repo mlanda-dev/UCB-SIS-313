@@ -35,3 +35,5 @@ api:
 
         # Respuestas con error 
         1. Si el id del producto es inválido se devuelve un error **422 - Unprocessable Entity**
+      parameters:
+        productId: ID del producto para el cual se buscarán reseñas

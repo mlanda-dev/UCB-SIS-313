@@ -39,3 +39,5 @@ api:
         # Respuestas con error o respuestas parciales
         1. Si ningún producto se encontró se devuelve un error **404 - Not Found**
         1. Si no se encuentran recomendaciones o reseñas para un producto, una respuesta parcial sera retornada
+      parameters:
+        productId: Id del producto a buscar.

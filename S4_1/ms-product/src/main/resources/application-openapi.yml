@@ -34,3 +34,5 @@ api:
 
         # Respuestas con error
         1. Si ningún producto se encontró se devuelve un error **404 - Not Found**
+      parameters:
+        productId: ID del producto a buscar

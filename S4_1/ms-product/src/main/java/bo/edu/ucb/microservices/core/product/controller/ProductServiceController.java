@@ -36,7 +36,7 @@ public class ProductServiceController {
 			@ApiResponse(responseCode = "400", description = "${api.responseCodes.badRequest.description}"),
 			@ApiResponse(responseCode = "404", description = "${api.responseCodes.notFound.description}")})
 	@GetMapping(value = "/{productId}", produces = "application/json")
-	public ProductDto getProduct(@Parameter(description = "ID del producto a buscar", required = true) 
+	public ProductDto getProduct(@Parameter(description = "${api.product.get-product.parameters.productId}", required = true) 
 			@PathVariable("productId") int productId) {
 		LOGGER.info("Obteniendo producto por el id: {}", productId);
 

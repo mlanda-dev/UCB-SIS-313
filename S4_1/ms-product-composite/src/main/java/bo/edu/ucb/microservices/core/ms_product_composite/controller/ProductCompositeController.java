@@ -20,6 +20,7 @@ import bo.edu.ucb.microservices.dto.review.ReviewDto;
 import bo.edu.ucb.microservices.util.exceptions.NotFoundException;
 import bo.edu.ucb.microservices.util.http.ServiceUtil;
 import io.swagger.v3.oas.annotations.Operation;
+import io.swagger.v3.oas.annotations.Parameter;
 import io.swagger.v3.oas.annotations.responses.ApiResponse;
 import io.swagger.v3.oas.annotations.responses.ApiResponses;
 import io.swagger.v3.oas.annotations.tags.Tag;
@@ -44,7 +45,8 @@ public class ProductCompositeController {
 			@ApiResponse(responseCode = "404", description = "${api.responseCodes.notFound.description}"),
 			@ApiResponse(responseCode = "422", description = "${api.responseCodes.unprocessableEntity.description}") })
 	@GetMapping(value = "/{productId}", produces = "application/json")
-	public ProductAggregateDto getProduct(@PathVariable int productId) {
+	public ProductAggregateDto getProduct(@Parameter(description = "${api.product-composite.get-composite-product.parameters.productId}", required = true) 
+			@PathVariable int productId) {
 		ProductDto product = integration.getProduct(productId);
 		if (product == null) {
 			throw new NotFoundException("Ningún producto encontrado para el id: " + productId);

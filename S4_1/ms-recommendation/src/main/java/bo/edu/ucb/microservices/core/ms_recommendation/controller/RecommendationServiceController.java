@@ -15,6 +15,7 @@ import bo.edu.ucb.microservices.dto.recommendation.RecommendationDto;
 import bo.edu.ucb.microservices.util.exceptions.InvalidInputException;
 import bo.edu.ucb.microservices.util.http.ServiceUtil;
 import io.swagger.v3.oas.annotations.Operation;
+import io.swagger.v3.oas.annotations.Parameter;
 import io.swagger.v3.oas.annotations.responses.ApiResponse;
 import io.swagger.v3.oas.annotations.responses.ApiResponses;
 import io.swagger.v3.oas.annotations.tags.Tag;
@@ -37,7 +38,8 @@ public class RecommendationServiceController {
 	@ApiResponses(value = { @ApiResponse(responseCode = "200", description = "${api.responseCodes.ok.description}"),
 			@ApiResponse(responseCode = "422", description = "${api.responseCodes.unprocessableEntity.description}") })
 	@GetMapping(produces = "application/json")
-	public List<RecommendationDto> getRecommendations(@RequestParam(value = "productId", required = true) int productId) {
+	public List<RecommendationDto> getRecommendations(@Parameter(description = "${api.recommendation.get-recommendation.parameters.productId}", required = true) 
+			@RequestParam(value = "productId", required = true) int productId) {
 		if (productId < 1) {
 			throw new InvalidInputException("Id de producto inválido: " + productId);
 		}

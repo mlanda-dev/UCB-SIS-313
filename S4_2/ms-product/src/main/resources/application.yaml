@@ -1,0 +1,15 @@
+spring:
+  application:
+    name: ms-product
+  config:
+    import: "classpath:application-openapi.yml"
+server:
+  port: 7001
+  error:
+    include-message: always
+    include-binding-errors: always
+    include-exception: true  
+logging:
+  level:
+    root: INFO
+    '[bo.edu.ucb.microservices]': DEBUG

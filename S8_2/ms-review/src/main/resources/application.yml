@@ -1,0 +1,31 @@
+spring:
+  application:
+    name: ms-review
+  config:
+    import: "classpath:application-openapi.yml"
+  datasource:
+    url: jdbc:postgresql://localhost:5432/review-db
+    username: admin
+    password: admin
+    hikari:
+      initialization-fail-timeout: 60000
+  jpa:
+    hibernate:
+      ddl-auto: update # En producción este valore debe ser "none"
+
+server:
+  port: 7003
+logging:
+  level:
+    root: INFO
+    '[bo.edu.ucb.microservices]': DEBUG
+    '[org.hibernate.SQL]': DEBUG
+    '[org.hibernate.type.descriptor.sql.BasicBinder]': TRACE
+    
+---
+spring.config.activate.on-profile: docker
+
+server.port: 8080
+
+spring.datasource:
+  url: jdbc:postgresql://postgresql/review-db

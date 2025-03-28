@@ -1,0 +1,25 @@
+spring:
+  application:
+    name: ms-product
+  config:
+    import: "classpath:application-openapi.yml"
+  data:
+    mongodb:
+      host: localhost
+      port: 27017
+      database: product-db
+server:
+  port: 7001
+  error:
+    include-message: always
+    include-binding-errors: always
+    include-exception: true  
+logging:
+  level:
+    root: INFO
+    '[bo.edu.ucb.microservices]': DEBUG
+    '[org.springframework.data.mongodb.core.MongoTemplate]': DEBUG
+--- 
+spring.config.activate.on-profile: docker
+server.port: 8080
+spring.data.mongodb.host: mongodb

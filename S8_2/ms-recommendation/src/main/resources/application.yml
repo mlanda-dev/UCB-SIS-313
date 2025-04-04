@@ -17,3 +17,8 @@ logging:
     root: INFO
     '[bo.edu.ucb.microservices]': DEBUG
     '[org.springframework.data.mongodb.core.MongoTemplate]': DEBUG
+    
+---
+spring.config.activate.on-profile: docker
+server.port: 8080
+spring.data.mongodb.host: mongodb

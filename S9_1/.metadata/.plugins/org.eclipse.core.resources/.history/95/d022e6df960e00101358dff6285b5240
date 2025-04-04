@@ -1,0 +1,131 @@
+package bo.edu.ucb.microservices.core.ms_product_composite.external;
+
+import static org.springframework.http.HttpMethod.GET;
+
+import java.io.IOException;
+import java.util.ArrayList;
+import java.util.List;
+
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Qualifier;
+import org.springframework.beans.factory.annotation.Value;
+import org.springframework.cloud.stream.function.StreamBridge;
+import org.springframework.core.ParameterizedTypeReference;
+import org.springframework.http.HttpStatus;
+import org.springframework.stereotype.Component;
+import org.springframework.web.client.HttpClientErrorException;
+import org.springframework.web.client.RestTemplate;
+import org.springframework.web.reactive.function.client.WebClient;
+
+import com.fasterxml.jackson.databind.ObjectMapper;
+
+import bo.edu.ucb.microservices.dto.product.ProductDto;
+import bo.edu.ucb.microservices.dto.recommendation.RecommendationDto;
+import bo.edu.ucb.microservices.dto.review.ReviewDto;
+import bo.edu.ucb.microservices.util.exceptions.InvalidInputException;
+import bo.edu.ucb.microservices.util.exceptions.NotFoundException;
+import bo.edu.ucb.microservices.util.http.HttpErrorInfo;
+import reactor.core.scheduler.Scheduler;
+
+@Component
+public class MsRecommendationIntegration {
+	private static final Logger LOGGER = LoggerFactory.getLogger(MsRecommendationIntegration.class);
+	
+	private final WebClient webClient;
+	private final ObjectMapper mapper;
+
+	private final String recommendationServiceUrl;
+
+	private final StreamBridge streamBridge;
+
+	private final Scheduler publishEventScheduler;
+
+	@Autowired
+	public MsRecommendationIntegration(@Qualifier("publishEventScheduler") Scheduler publishEventScheduler,
+			WebClient.Builder webClient, ObjectMapper mapper, StreamBridge streamBridge,
+			@Value("${app.recommendation-service.host}") String recommendationServiceHost,
+			@Value("${app.recommendation-service.port}") int recommendationServicePort) {
+
+		this.publishEventScheduler = publishEventScheduler;
+		this.webClient = webClient.build();
+		this.mapper = mapper;
+		this.streamBridge = streamBridge;
+
+		recommendationServiceUrl = "http://" + recommendationServiceHost + ":" + recommendationServicePort;
+	}
+
+	
+	public List<RecommendationDto> getRecommendations(int productId) {
+
+		try {
+			String url = recommendationServiceUrl + "?productId="+productId;
+
+			LOGGER.debug("Llamando a getRecommendations API en URL: {}", url);
+			List<RecommendationDto> recommendations = restTemplate
+					.exchange(url, GET, null, new ParameterizedTypeReference<List<RecommendationDto>>() {
+					}).getBody();
+
+			LOGGER.debug("Se encontraron {} recomendaciones para el producto con id: {}", recommendations.size(), productId);
+			return recommendations;
+
+		} catch (Exception ex) {
+			LOGGER.warn("Ocurrió una excepción al traer las recomendaciones, retornando 0 recomendaciones: {}",
+					ex.getMessage());
+			return new ArrayList<>();
+		}
+	}
+
+	public RecommendationDto createRecommendation(RecommendationDto body) {
+
+		try {
+			String url = recommendationServiceUrl;
+			LOGGER.debug("Se creará una nueva recomendación en URL: {}", url);
+
+			RecommendationDto recommendation = restTemplate.postForObject(url, body, RecommendationDto.class);
+			LOGGER.debug("Recomendación creada con id: {}", recommendation.getProductId());
+
+			return recommendation;
+
+		} catch (HttpClientErrorException ex) {
+			throw handleHttpClientException(ex);
+		}
+	}
+
+	public void deleteRecommendations(int productId) {
+		try {
+			String url = recommendationServiceUrl + "?productId=" + productId;
+			LOGGER.debug("Llamando a deleteRecommendations API en URL: {}", url);
+
+			restTemplate.delete(url);
+
+		} catch (HttpClientErrorException ex) {
+			throw handleHttpClientException(ex);
+		}
+	}
+
+	private RuntimeException handleHttpClientException(HttpClientErrorException ex) {
+		switch (HttpStatus.resolve(ex.getStatusCode().value())) {
+
+		case NOT_FOUND:
+			return new NotFoundException(getErrorMessage(ex));
+
+		case UNPROCESSABLE_ENTITY:
+			return new InvalidInputException(getErrorMessage(ex));
+
+		default:
+			LOGGER.warn("Se obtuvo un error HTTP: {}, se retornará la excepción", ex.getStatusCode());
+			LOGGER.warn("Error body: {}", ex.getResponseBodyAsString());
+			return ex;
+		}
+	}
+
+	private String getErrorMessage(HttpClientErrorException ex) {
+		try {
+			return mapper.readValue(ex.getResponseBodyAsString(), HttpErrorInfo.class).getMessage();
+		} catch (IOException ioex) {
+			return ex.getMessage();
+		}
+	}
+}

@@ -12,6 +12,24 @@ services:
       mongodb:
         condition: service_healthy
 
+  recommendation:
+    image: recommendation-service:latest
+    mem_limit: 512m
+    environment:
+      - SPRING_PROFILES_ACTIVE=docker
+    depends_on:
+      mongodb:
+        condition: service_healthy
+
+  review:
+    image: review-service:latest
+    mem_limit: 512m
+    environment:
+      - SPRING_PROFILES_ACTIVE=docker
+    depends_on:
+      postgresql:
+        condition: service_healthy
+
   product-composite:
     image: product-composite-service:latest
     mem_limit: 512m
@@ -32,7 +50,7 @@ services:
       timeout: 2s
       retries: 60
 
-  postgres:
+  postgresql:
     image: postgres:16-alpine
     mem_limit: 512m
     ports:

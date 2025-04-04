@@ -1,0 +1,5 @@
+package bo.edu.ucb.microservices.core.ms_recommendation.config;
+
+public class MessageProcessorConfig {
+
+}

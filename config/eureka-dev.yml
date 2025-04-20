@@ -13,5 +13,3 @@ eureka:
   server:
     waitTimeInMsWhenSyncEmpty: 0
     response-cache-update-interval-ms: 5000 # por defecto son 30000 (30 segundos)
-
-management.endpoints.web.exposure.include: "*"

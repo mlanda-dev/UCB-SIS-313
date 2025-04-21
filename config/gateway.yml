@@ -47,7 +47,7 @@ spring:
           - SetPath=/actuator/health
           
         - id: config-server
-          uri: http://${app.config-server}:8888
+          uri: http://${spring.cloud.config.uri}:8888
           predicates:
           - Path=/config/**
           filters:

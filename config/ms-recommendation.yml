@@ -1,10 +1,6 @@
 spring:
   config:
     import: "classpath:application-openapi.yml"
-
-spring:
-  application:
-    name: ms-recommendation
   data:
     mongodb:
       host: localhost

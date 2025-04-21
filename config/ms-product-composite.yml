@@ -1,10 +1,6 @@
 spring:
   config:
     import: "classpath:application-openapi.yml"
-
-spring:
-  application:
-    name: ms-product-composite
   security:
     oauth2:
       resourceserver:

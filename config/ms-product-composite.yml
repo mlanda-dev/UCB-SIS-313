@@ -1,6 +1,4 @@
 spring:
-  config:
-    import: "classpath:application-openapi.yml"
   security:
     oauth2:
       resourceserver:

@@ -1,6 +1,4 @@
 spring:
-  config:
-    import: "classpath:application-openapi.yml"
   datasource:
     url: jdbc:postgresql://localhost:5432/review-db
     username: admin

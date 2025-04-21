@@ -1,7 +1,3 @@
-spring:
-  config:
-    import: "classpath:application-openapi.yml"
-
 server:
   error:
     include-message: always

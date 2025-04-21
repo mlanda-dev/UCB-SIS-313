@@ -51,7 +51,7 @@ spring:
           predicates:
           - Path=/config/**
           filters:
-          - RewritetPath=/config/(?<segment>.*),/$\{segment}
+          - RewritePath=/config/(?<segment>.*),/$\{segment}
 
   security:
     oauth2:

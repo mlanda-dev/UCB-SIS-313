@@ -20,7 +20,7 @@ spring.rabbitmq:
   host: 127.0.0.1
   port: 5672
   username: guest
-  password: '{cipher}370a7a4180d0e30e48f98d795509bf3775dddc9dd9bd6ad591d40d67355533d6e43'
+  password: '{cipher}6636f5d622aea7a10361bdccffbd6f1698889c1e564f1d1a65b78776e894b527'
 
 spring.cloud.stream.kafka.binder:
   brokers: 127.0.0.1

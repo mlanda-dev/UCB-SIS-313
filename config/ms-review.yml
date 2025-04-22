@@ -2,7 +2,7 @@ spring:
   datasource:
     url: jdbc:postgresql://localhost:5432/review-db
     username: admin
-    password: '{cipher}3962d61b597ad4de1bff104d7083865b29d1c1c6cf5ca15eccba9148c1ffeebc493'
+    password: '{cipher}2cfd3f4a9cc2652c2718b6842cc50619b654c95297a2987a3188ac1f2866bde4'
     hikari:
       initialization-fail-timeout: 60000
   jpa:

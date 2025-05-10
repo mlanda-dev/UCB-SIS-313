@@ -1,0 +1,114 @@
+/* Estilos mejorados para ProductListComponent */
+.product-list {
+  max-width: 900px;
+  margin: 2rem auto;
+  padding: 1rem;
+  font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+}
+
+.product-list h2 {
+  margin-bottom: 1rem;
+  color: #333;
+}
+
+#header {
+  margin-bottom: 1rem;
+}
+
+#search-product {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  margin-bottom: 2rem;
+}
+
+#search-product input {
+  flex: 1;
+  padding: 0.5rem;
+  border: 1px solid #ccc;
+  border-radius: 4px;
+}
+
+#search-product button {
+  padding: 0.5rem 1rem;
+}
+
+table {
+  width: 100%;
+  border-collapse: collapse;
+  margin-bottom: 2rem;
+}
+
+table thead th {
+  background-color: #f0f0f0;
+  padding: 0.75rem;
+  text-align: left;
+}
+
+table tbody td {
+  padding: 0.75rem;
+  border-top: 1px solid #ddd;
+}
+
+table tbody tr:nth-child(even) {
+  background-color: #fafafa;
+}
+
+table tbody tr:hover {
+  background-color: #f5faff;
+}
+
+button {
+  padding: 0.5rem 1rem;
+  border: none;
+  background-color: #007bff;
+  color: white;
+  border-radius: 4px;
+  cursor: pointer;
+  font-size: 0.9rem;
+}
+
+button:hover {
+  background-color: #0056b3;
+}
+
+.create-form,
+.reviews-form,
+.recommendations-form {
+  margin-bottom: 1.5rem;
+}
+
+.create-form label,
+.reviews-form label,
+.recommendations-form label {
+  display: block;
+  margin-bottom: 0.25rem;
+  font-weight: 600;
+}
+
+.create-form input,
+.reviews-form input,
+.recommendations-form input {
+  width: 100%;
+  padding: 0.5rem;
+  border: 1px solid #ccc;
+  border-radius: 4px;
+  box-sizing: border-box;
+  margin-bottom: 1rem;
+}
+
+.reviews-form .item-form,
+.recommendations-form .item-form {
+  border: 1px solid #ddd;
+  padding: 1rem;
+  border-radius: 4px;
+  margin-bottom: 1rem;
+}
+
+/* Espacio para sección de detalles de producto en búsqueda */
+#search-product + div {
+  background: #f9f9f9;
+  padding: 1rem;
+  border-radius: 4px;
+  margin-bottom: 2rem;
+}

@@ -1,0 +1,90 @@
+<div class="product-list">
+  <header id="header" class="d-flex justify-content-between align-items-center">
+    <h2>Productos</h2>
+    <button class="btn btn-outline-danger btn-sm" (click)="logout()">Logout</button>
+  </header>
+  <section id="search-product" class="input-group mb-4">
+    <input class="form-control" type="number" [(ngModel)]="idProduct" placeholder="ID del producto">
+    <button class="btn btn-primary" type="button" (click)="getProduct(idProduct!)">Buscar</button>
+  </section>
+  <div *ngIf="idProduct != null && detailsMap[idProduct!]" class="card mb-4">
+    <div class="card-header">Detalle del Producto</div>
+    <div class="card-body">
+      <dl class="row mb-3">
+        <dt class="col-sm-3">ID</dt><dd class="col-sm-9">{{ detailsMap[idProduct!].productId }}</dd>
+        <dt class="col-sm-3">Nombre</dt><dd class="col-sm-9">{{ detailsMap[idProduct!].name }}</dd>
+        <dt class="col-sm-3">Peso</dt><dd class="col-sm-9">{{ detailsMap[idProduct!].weight }}</dd>
+      </dl>
+      <h5 class="mt-3">Recomendaciones</h5>
+      <ul class="list-group mb-3">
+        <li class="list-group-item d-flex justify-content-between align-items-start" *ngFor="let r of detailsMap[idProduct!].recommendations">
+          <div>
+            <strong>#{{ r.recommendationId }}</strong> {{ r.author }} ({{ r.rate }}): {{ r.content }}
+          </div>
+          <button type="button" class="btn btn-sm btn-outline-danger" (click)="toggleDetails(idProduct!)">Cerrar</button>
+        </li>
+      </ul>
+      <h5>Reseñas</h5>
+      <ul class="list-group">
+        <li class="list-group-item" *ngFor="let rev of detailsMap[idProduct!].reviews">
+          <p><strong>#{{ rev.reviewId }} - {{ rev.author }}</strong></p>
+          <p><em>{{ rev.subject }}</em></p>
+          <p>{{ rev.content }}</p>
+        </li>
+      </ul>
+    </div>
+  </div>
+  <hr>
+  <div class="card">
+    <div class="card-header">Crear Producto</div>
+    <div class="card-body">
+      <form #productForm="ngForm" id="create-product" (ngSubmit)="createProduct(productForm)">
+        <div class="row mb-3">
+          <div class="col-sm-4">
+            <div class="mb-3">
+              <label for="productId" class="form-label">ID</label>
+              <input id="productId" name="productId" class="form-control" type="number" [(ngModel)]="newProduct.productId">
+            </div>
+          </div>
+          <div class="col-sm-4">
+            <div class="mb-3">
+              <label for="name" class="form-label">Nombre</label>
+              <input id="name" name="name" class="form-control" type="text" [(ngModel)]="newProduct.name">
+            </div>
+          </div>
+          <div class="col-sm-4">
+            <div class="mb-3">
+              <label for="weight" class="form-label">Peso</label>
+              <input id="weight" name="weight" class="form-control" type="number" [(ngModel)]="newProduct.weight">
+            </div>
+          </div>
+        </div>
+        <div class="mb-4">
+          <h5>Reseñas</h5>
+          <div *ngFor="let r of newReviews; let i = index" class="input-group mb-2">
+            <span class="input-group-text">ID</span>
+            <input name="reviewId{{i}}" class="form-control" type="number" [(ngModel)]="r.reviewId" placeholder="ID">
+            <input name="reviewAuthor{{i}}" class="form-control" [(ngModel)]="r.author" placeholder="Autor">
+            <input name="reviewSubject{{i}}" class="form-control" [(ngModel)]="r.subject" placeholder="Asunto">
+            <input name="reviewContent{{i}}" class="form-control" [(ngModel)]="r.content" placeholder="Contenido">
+            <button type="button" class="btn btn-outline-danger" (click)="removeReview(i)">×</button>
+          </div>
+          <button type="button" class="btn btn-outline-primary btn-sm" (click)="addReview()">+ Añadir Review</button>
+        </div>
+        <div class="mb-4">
+          <h5>Recomendaciones</h5>
+          <div *ngFor="let rec of newRecommendations; let i = index" class="input-group mb-2">
+            <span class="input-group-text">ID</span>
+            <input name="recId{{i}}" class="form-control" type="number" [(ngModel)]="rec.recommendationId" placeholder="ID">
+            <input name="recAuthor{{i}}" class="form-control" [(ngModel)]="rec.author" placeholder="Autor">
+            <input name="recRate{{i}}" class="form-control" [(ngModel)]="rec.rate" type="number" placeholder="Rate">
+            <input name="recContent{{i}}" class="form-control" [(ngModel)]="rec.content" placeholder="Contenido">
+            <button type="button" class="btn btn-outline-danger" (click)="removeRecommendation(i)">×</button>
+          </div>
+          <button type="button" class="btn btn-outline-primary btn-sm" (click)="addRecommendation()">+ Añadir Recomendación</button>
+        </div>
+        <button type="submit" class="btn btn-success">Crear Producto</button>
+      </form>
+    </div>
+  </div>
+</div> 

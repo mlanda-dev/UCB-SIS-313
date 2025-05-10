@@ -1,0 +1,19 @@
+api:
+
+  common:
+    version:
+    title:
+    description:
+    termsOfService:
+    license:
+    licenseUrl:
+    externalDocDesc:
+    externalDocUrl:
+    contact:
+      name:
+      url:
+      email:
+
+server.error.include-message: always
+
+spring.cloud.stream.defaultBinder: rabbit

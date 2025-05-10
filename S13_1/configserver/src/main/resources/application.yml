@@ -1,0 +1,29 @@
+spring.application.name: config-server
+server.port: 8888
+
+spring.cloud.config.server.git:
+  uri: https://github.com/mlanda-dev/UCB-SIS-313_config.git
+  default-label: main  # o master, o cualquier branch
+  #search-paths: config  # opcional, si los yml están en una carpeta
+  username: mlanda-ucb
+  password: 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 #Token generado en github
+  timeout: 30
+  force-pull: true
+ 
+spring.security:
+  user:
+    name: ${CONFIG_SERVER_USR:config-usr}
+    password: ${CONFIG_SERVER_PWD:SIS313ucb}
+
+# WARNING: Exposing all management endpoints over http should only be used during development, must be locked down in production!
+management.endpoint.health.show-details: "ALWAYS"
+management.endpoints.web.exposure.include: "*"
+
+logging:
+  level:
+    root: info
+    org.springframework.cloud.config: DEBUG
+#    org.eclipse.jgit: DEBUG
+
+---
+spring.config.activate.on-profile: docker

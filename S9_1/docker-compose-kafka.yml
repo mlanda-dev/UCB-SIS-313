@@ -2,7 +2,7 @@ version: '2.1'
 
 services:
   product:
-    image: product-service:latest
+    image: product-service:0.0.2
     mem_limit: 512m
     environment:
       - SPRING_PROFILES_ACTIVE=docker,streaming_partitioned,streaming_instance_0,kafka
@@ -13,7 +13,7 @@ services:
         condition: service_started
 
   product-p1:
-    image: product-service:latest
+    image: product-service:0.0.2
     mem_limit: 512m
     environment:
       - SPRING_PROFILES_ACTIVE=docker,streaming_partitioned,streaming_instance_1,kafka
@@ -24,7 +24,7 @@ services:
         condition: service_started
 
   recommendation:
-    image: recommendation-service:latest
+    image: recommendation-service:0.0.2
     mem_limit: 512m
     environment:
       - SPRING_PROFILES_ACTIVE=docker,streaming_partitioned,streaming_instance_0,kafka
@@ -35,7 +35,7 @@ services:
         condition: service_started
 
   recommendation-p1:
-    image: recommendation-service:latest
+    image: recommendation-service:0.0.2
     mem_limit: 512m
     environment:
       - SPRING_PROFILES_ACTIVE=docker,streaming_partitioned,streaming_instance_1,kafka
@@ -46,29 +46,29 @@ services:
         condition: service_started
 
   review:
-    image: review-service:latest
+    image: review-service:0.0.2
     mem_limit: 512m
     environment:
       - SPRING_PROFILES_ACTIVE=docker,streaming_partitioned,streaming_instance_0,kafka
     depends_on:
-      mysql:
+      postgresql:
         condition: service_healthy
       kafka:
         condition: service_started
 
   review-p1:
-    image: review-service:latest
+    image: review-service:0.0.2
     mem_limit: 512m
     environment:
       - SPRING_PROFILES_ACTIVE=docker,streaming_partitioned,streaming_instance_1,kafka
     depends_on:
-      mysql:
+      postgresql:
         condition: service_healthy
       kafka:
         condition: service_started
 
   product-composite:
-    image: product-composite-service:latest
+    image: product-composite-service:0.0.2
     mem_limit: 512m
     ports:
       - "8080:8080"
@@ -77,37 +77,6 @@ services:
     depends_on:
       kafka:
         condition: service_started
-
-      - SPRING_PROFILES_ACTIVE=docker
-    depends_on:
-      mongodb:
-        condition: service_healthy
-
-  recommendation:
-    image: recommendation-service:latest
-    mem_limit: 512m
-    environment:
-      - SPRING_PROFILES_ACTIVE=docker
-    depends_on:
-      mongodb:
-        condition: service_healthy
-
-  review:
-    image: review-service:latest
-    mem_limit: 512m
-    environment:
-      - SPRING_PROFILES_ACTIVE=docker
-    depends_on:
-      postgresql:
-        condition: service_healthy
-
-  product-composite:
-    image: product-composite-service:latest
-    mem_limit: 512m
-    ports:
-      - "8080:8080"
-    environment:
-      - SPRING_PROFILES_ACTIVE=docker
 
   mongodb:
     image: mongo:8

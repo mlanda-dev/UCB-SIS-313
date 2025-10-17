@@ -8,8 +8,10 @@ import static org.springframework.http.MediaType.APPLICATION_JSON;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.boot.test.autoconfigure.web.reactive.AutoConfigureWebTestClient;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.http.HttpStatus;
+import org.springframework.security.test.web.reactive.server.SecurityMockServerConfigurers;
 import org.springframework.test.context.bean.override.mockito.MockitoBean;
 import org.springframework.test.web.reactive.server.WebTestClient;
 
@@ -27,6 +29,7 @@ import reactor.core.publisher.Mono;
 @SpringBootTest(webEnvironment = RANDOM_PORT, 
 properties = {"eureka.client.enabled=false","spring.main.allow-bean-definition-overriding=true"}, 
 classes = {TestSecurityConfig.class})
+@AutoConfigureWebTestClient
 class MsProductCompositeApplicationTests {
 
 	private static final int PRODUCT_ID_OK = 1;
@@ -90,10 +93,13 @@ class MsProductCompositeApplicationTests {
 	}
 
 	private WebTestClient.BodyContentSpec getAndVerifyProduct(int productId, HttpStatus expectedStatus) {
-		return client.get()
+		return client
+				.mutateWith(SecurityMockServerConfigurers.mockUser("user").roles("PRODUCT_COMPOSITE_READ"))
+				.get()
 				.uri("/v1/product-composite/" + productId)
 				.accept(APPLICATION_JSON).exchange()
 				.expectStatus().isEqualTo(expectedStatus)
-				.expectHeader().contentType(APPLICATION_JSON).expectBody();
+				.expectHeader().contentType(APPLICATION_JSON)
+				.expectBody();
 	}
 }

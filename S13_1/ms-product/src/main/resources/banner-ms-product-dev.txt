@@ -1,0 +1,3 @@
+=========================================
+   🌱 CONFIGURACIÓN SERVICIO ESPECIFICO DEV (ms-product-dev.yml)
+=========================================

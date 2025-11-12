@@ -12,7 +12,8 @@ spring:
     uri: http://localhost:8888
     username: ${CONFIG_SERVER_USR}
     password: ${CONFIG_SERVER_PWD}
-
+  banner:
+    location: classpath:banner-local.txt
 ---
 spring.config.activate.on-profile: docker
 

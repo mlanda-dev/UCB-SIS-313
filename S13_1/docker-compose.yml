@@ -2,7 +2,7 @@ version: '3.8'
 
 services:
   product:
-    image: product-service:latest
+    image: product-service:0.0.6
     mem_limit: 512m
     environment:
       - SPRING_PROFILES_ACTIVE=docker
@@ -18,7 +18,7 @@ services:
         condition: service_healthy
 
   recommendation:
-    image: recommendation-service:latest
+    image: recommendation-service:0.0.6
     mem_limit: 512m
     environment:
       - SPRING_PROFILES_ACTIVE=docker
@@ -34,7 +34,7 @@ services:
         condition: service_healthy
 
   review:
-    image: review-service:latest
+    image: review-service:0.0.6
     mem_limit: 512m
     environment:
       - SPRING_PROFILES_ACTIVE=docker
@@ -50,7 +50,7 @@ services:
         condition: service_healthy
 
   product-composite:
-    image: product-composite-service:latest
+    image: product-composite-service:0.0.6
     mem_limit: 512m
     environment:
       - SPRING_PROFILES_ACTIVE=docker
